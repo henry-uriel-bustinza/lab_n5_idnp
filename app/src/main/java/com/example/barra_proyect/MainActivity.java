@@ -13,8 +13,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Barras vista= new Barras(this);
-
+        int[] a = {20, 25, 30 ,40, 10, 20, 25, 30 ,40, 10};
+        String[] b = {"Juan", "Luis", "Pedro", "Mario", "Felix", "Juan", "Luis", "Pedro", "Mario", "Felix"};
+        Barras vista= new Barras(this, b, a);
         setContentView(vista);
     }
 }
@@ -27,39 +28,35 @@ class Barras extends View {
     private int[] vals;
     private String[] names;
     private int cant;
-    int[] a = {20, 25, 30 ,40, 10};
-    String[] b = {"Juan", "Luis", "Pedro", "Mario", "Felix"};
+    //int[] a = {20, 25, 30 ,40, 10, 20, 25, 30 ,40, 10};
+    //String[] b = {"Juan", "Luis", "Pedro", "Mario", "Felix", "Juan", "Luis", "Pedro", "Mario", "Felix"};
 
-    public Barras(Context context) {
+    public Barras(Context context, String[] nombres, int[] valores) {
         super(context);
+        //setAtributos(b, a);
+        setAtributos(nombres, valores);
     }
 
     public void setColor(int color) {
         colorBar = color;
     }
 
-    public void setAtributos(String[] nombres, int[] valores) {
+    private void setAtributos(String[] nombres, int[] valores) {
         names = nombres;
         vals = valores;
+
     }
 
     private void drawBars(Canvas canvas) {
 
         DibujarBase(canvas);
+        setCant(names.length);
+        /*DibujarBarra(canvas, 20, "Hola");*/
 
-        cantidad(5);
-        DibujarBarra(canvas, 20, "Hola");
-        DibujarBarra(canvas, 32, "Jaja");
-        DibujarBarra(canvas, 41, "Prueba");
-        DibujarBarra(canvas, 25, "pokenei");
-        DibujarBarra(canvas, 20, "jasd");
 
-    /*
-            for(int iN = 0; iN < names.length; ++iN){
-                for (int j = 0; j < vals.length; ++j) {
-
-                }
-            }*/
+        for(int iN = 0; iN < names.length; ++iN){
+            DibujarBarra(canvas, vals[iN], names[iN]);
+        }
     }
 
 
@@ -78,8 +75,7 @@ class Barras extends View {
         int lineB = alto/3*2;
         paint.setStrokeWidth(5);
         canvas.drawLine(25, lineB,ancho-25, lineB, paint);
-        canvas.drawLine(50, lineB+25,50, (alto/4)- 30, paint);
-        int t = temp1;
+        canvas.drawLine(50, lineB+25,50, (alto/4)+ 30, paint);
         paint.setTextSize(30 - cant);
         for(int i=0;i<7;++i){
             canvas.drawText((i*10)+"", 20, lineB-(i*100), paint);
@@ -102,7 +98,7 @@ class Barras extends View {
 
     }
 
-    public void cantidad(int x) {
+    public void setCant(int x) {
         temp1 = ancho / (x + 1) + 30;
         temp2 = ancho / (x + 1);
         cant = x;
